@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viral or Fail? | Newhouse MS Advertising</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #D44500 0%, #F76900 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: #D44500;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            position: relative;
+        }
+        .progress-fill {
+            background: #D44500;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .start-screen, .question-screen, .results-screen {
+            text-align: center;
+        }
+        .start-screen h2 {
+            color: #D44500;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        .start-screen p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .campaign-card {
+            background: #f8f8f8;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .campaign-title {
+            color: #D44500;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .campaign-description {
+            color: #333;
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .question-text {
+            color: #000;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            flex: 1;
+            padding: 18px 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-primary {
+            background: #D44500;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #B83A00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 69, 0, 0.3);
+        }
+        .btn-viral {
+            background: #00A651;
+            color: white;
+        }
+        .btn-viral:hover {
+            background: #008741;
+            transform: translateY(-2px);
+        }
+        .btn-fail {
+            background: #DC143C;
+            color: white;
+        }
+        .btn-fail:hover {
+            background: #C01030;
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .feedback {
+            background: #f0f0f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            animation: slideIn 0.3s ease;
+        }
+        .feedback.correct {
+            background: #d4edda;
+            border-left: 4px solid #00A651;
+        }
+        .feedback.incorrect {
+            background: #f8d7da;
+            border-left: 4px solid #DC143C;
+        }
+        .feedback-title {
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .feedback.correct .feedback-title {
+            color: #00A651;
+        }
+        .feedback.incorrect .feedback-title {
+            color: #DC143C;
+        }
+        .feedback-text {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .lesson {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-style: italic;
+            color: #666;
+        }
+        .lesson strong {
+            color: #D44500;
+            font-style: normal;
+        }
+        .score-display {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .results-score {
+            font-size: 4em;
+            color: #D44500;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+        .results-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .results-subtitle {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .cta-box {
+            background: linear-gradient(135deg, #D44500 0%, #F76900 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        .cta-box h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .cta-box p {
+            margin-bottom: 20px;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: white;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        .form-group input:focus {
+            outline: 3px solid #FFB81C;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hidden {
+            display: none;
+        }
+        .emoji {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .header p {
+                font-size: 1em;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+            .btn {
+                padding: 15px 20px;
+                font-size: 1em;
+            }
+            .results-score {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>VIRAL or FAIL?</h1>
+            <p>Test Your Advertising Strategy Skills</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+
+        <div class="content">
+            <div id="startScreen" class="start-screen">
+                <div class="emoji">🎯</div>
+                <h2>Think You Can Spot a Winning Campaign?</h2>
+                <p>Real campaigns. Real results. Can you predict which ones went viral and which ones crashed and burned?</p>
+                <p><strong>8 campaigns. Your strategic instincts. Let us see if you have what it takes.</strong></p>
+                <button class="btn btn-primary" id="startButton">START GAME</button>
+            </div>
+
+            <div id="questionScreen" class="question-screen hidden">
+                <div class="score-display">
+                    Question <span id="currentQuestion">1</span> of <span id="totalQuestions">8</span> | 
+                    Score: <span id="currentScore">0</span>/<span id="questionsAnswered">0</span>
+                </div>
+
+                <div class="campaign-card">
+                    <div class="campaign-title" id="campaignTitle"></div>
+                    <div class="campaign-description" id="campaignDescription"></div>
+                    <div class="question-text">Will this campaign go VIRAL or FAIL?</div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-viral" id="viralButton">VIRAL</button>
+                    <button class="btn btn-fail" id="failButton">FAIL</button>
+                </div>
+
+                <div id="feedback" class="hidden"></div>
+
+                <button id="nextButton" class="btn btn-primary hidden">NEXT QUESTION</button>
+            </div>
+
+            <div id="resultsScreen" class="results-screen hidden">
+                <div class="emoji" id="resultsEmoji">🎉</div>
+                <div class="results-score"><span id="finalScore">0</span>/8</div>
+                <div class="results-title" id="resultsTitle"></div>
+                <div class="results-subtitle" id="resultsMessage"></div>
+
+                <div class="cta-box">
+                    <h3>Want to Master This For Real?</h3>
+                    <p id="ctaMessage"></p>
+                    
+                    <form id="leadForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="program">Current Major/Program</label>
+                            <input type="text" id="program" placeholder="e.g., Communications, Business, Undeclared">
+                        </div>
+                        <button type="submit" class="btn btn-primary">LEARN MORE ABOUT MS ADVERTISING</button>
+                    </form>
+                </div>
+
+                <button class="btn btn-primary" id="restartButton" style="margin-top: 20px;">PLAY AGAIN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var gameState = {
+            currentQuestionIndex: 0,
+            score: 0,
+            questionsAnswered: 0
+        };
+        
+        var campaigns = [
+            {
+                title: "Bud Light + Dylan Mulvaney Partnership (2023)",
+                description: "Bud Light partnered with trans influencer Dylan Mulvaney for a Pride Month campaign. Mulvaney posted a sponsored video showcasing custom Bud Light cans with her face on them. The campaign aimed to reach younger, more progressive audiences.",
+                answer: "fail",
+                result: "MASSIVE FAIL",
+                explanation: "The campaign sparked intense boycotts from Bud Light core conservative customer base. Sales plummeted 25-30%, the brand lost its top market position, and the company stock dropped significantly. Both sides of the political spectrum ended up angry with the brand.",
+                lesson: "Know your core audience before making social stands. Understand the potential consequences of values-based marketing on your existing customer base."
+            },
+            {
+                title: "Liquid Death Greatest Hates Campaign (2023)",
+                description: "Liquid Death Mountain Water turned online hate comments into a humorous campaign. They featured real negative comments about their brand in ads and even on billboards, turning criticism into comedy. The canned water brand irreverent approach included death metal aesthetics and absurdist humor.",
+                answer: "viral",
+                result: "VIRAL SUCCESS",
+                explanation: "The campaign generated over 3 billion impressions and massive social media engagement. Liquid Death grew to a $700M+ valuation. The brand successfully differentiated itself in a crowded water market by embracing humor and authenticity.",
+                lesson: "Owning your critics and having a distinct brand personality can create massive buzz. Not every brand needs to be serious. Humor and self-awareness resonate, especially with younger audiences."
+            },
+            {
+                title: "Pepsi Kendall Jenner Protest Ad (2017)",
+                description: "Pepsi released an ad featuring Kendall Jenner joining a protest march and handing a Pepsi to a police officer, seemingly resolving tension. The ad attempted to tap into the social justice movement and Black Lives Matter activism with an uplifting, unifying message.",
+                answer: "fail",
+                result: "EPIC FAIL",
+                explanation: "The ad was pulled within 24 hours after massive backlash for trivializing serious social justice movements. Critics called it tone-deaf and accused Pepsi of co-opting protest imagery for profit. Pepsi issued an apology.",
+                lesson: "Do not co-opt social movements without authentic connection or understanding. Surface-level attempts at purpose marketing will be called out immediately."
+            },
+            {
+                title: "Dove Real Beauty Campaign (2004-Present)",
+                description: "Dove launched a campaign challenging beauty standards by featuring women of all ages, sizes, and ethnicities instead of traditional models. The campaign included videos like Evolution showing photo manipulation and Real Beauty Sketches exploring self-perception.",
+                answer: "viral",
+                result: "VIRAL AND SUSTAINED SUCCESS",
+                explanation: "The campaign became a 20-year platform that fundamentally changed beauty advertising. It generated billions of views, won countless awards, increased Dove sales from $2.5B to $4B+, and created a new category: purpose-driven beauty marketing.",
+                lesson: "Authentic purpose plus emotional connection plus consistent execution equals long-term success. When done right, values-based marketing can transform a brand."
+            },
+            {
+                title: "Spotify Wrapped (2016-Present)",
+                description: "Spotify annual personalized year-end campaign shows users their listening data: top artists, songs, genres, minutes listened, and fun facts. It is delivered as shareable social media graphics and stories, turning personal data into social currency.",
+                answer: "viral",
+                result: "VIRAL PHENOMENON",
+                explanation: "Wrapped generates billions of social media impressions annually with pure user-generated content. It became a cultural moment where NOT sharing your Wrapped feels like missing out. Competitors tried to copy it but none matched its impact.",
+                lesson: "Give audiences something worth sharing about themselves. Personalization plus social sharing plus FOMO plus annual anticipation equals marketing gold."
+            },
+            {
+                title: "Meta Metaverse Campaigns (2022-2023)",
+                description: "Multiple major brands (Nike, Walmart, Disney) invested heavily in metaverse marketing with virtual stores, NFT collections, branded experiences in platforms like Decentraland and Meta Horizon Worlds. Campaigns promised the future of consumer engagement.",
+                answer: "fail",
+                result: "EXPENSIVE FAIL",
+                explanation: "Most metaverse campaigns saw extremely low engagement (often single-digit visitors to virtual stores). Brands spent millions on experiences few people accessed. The technology was not ready and the audience was not there.",
+                lesson: "Do not chase technology trends without following the audience first. Just because tech is hot does not mean your customers are there."
+            },
+            {
+                title: "Duolingo Unhinged TikTok Strategy (2021-Present)",
+                description: "Duolingo mascot, a green owl named Duo, became TikTok most chaotic corporate account. The brand posts surreal, slightly threatening content, crashes other brands videos, and creates memes about itself. Zero polish, maximum personality.",
+                answer: "viral",
+                result: "VIRAL SUCCESS",
+                explanation: "Duolingo became TikTok most-followed education brand with 10M+ followers. App downloads increased significantly, especially among Gen Z. The brand proved corporate accounts do not need to be corporate.",
+                lesson: "Platform-native content wins. Understanding platform culture (TikTok chaotic humor) matters more than traditional brand guidelines. Gen Z rewards authenticity and weirdness."
+            },
+            {
+                title: "Peloton Gift That Gives Back Holiday Ad (2019)",
+                description: "Peloton holiday commercial showed a husband gifting his already-slim wife a Peloton bike. She documented her yearlong fitness journey in video diaries, thanking him for changing her life. The ad aimed to show transformation and dedication.",
+                answer: "fail",
+                result: "CONTROVERSIAL FAIL",
+                explanation: "The ad was mocked mercilessly on social media as sexist, tone-deaf, and dystopian. Critics called it The Gift of Fear. Peloton stock dropped 9% in days. The ad was pulled, and the company faced weeks of negative press.",
+                lesson: "Test your creative with diverse audiences before launch. What seems motivational in the boardroom might read as problematic to real people. Gender dynamics in advertising matter."
+            }
+        ];
+
+        function startGame() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('questionScreen').classList.remove('hidden');
+            document.getElementById('totalQuestions').textContent = campaigns.length;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            var campaign = campaigns[gameState.currentQuestionIndex];
+            document.getElementById('currentQuestion').textContent = gameState.currentQuestionIndex + 1;
+            document.getElementById('campaignTitle').textContent = campaign.title;
+            document.getElementById('campaignDescription').textContent = campaign.description;
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('nextButton').classList.add('hidden');
+            
+            document.getElementById('viralButton').disabled = false;
+            document.getElementById('failButton').disabled = false;
+            
+            updateProgressBar();
+        }
+
+        function answerQuestion(answer) {
+            gameState.questionsAnswered++;
+            var campaign = campaigns[gameState.currentQuestionIndex];
+            var isCorrect = answer === campaign.answer;
+            
+            if (isCorrect) gameState.score++;
+
+            document.getElementById('viralButton').disabled = true;
+            document.getElementById('failButton').disabled = true;
+
+            var feedbackDiv = document.getElementById('feedback');
+            feedbackDiv.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            feedbackDiv.innerHTML = '<div class="feedback-title">' + (isCorrect ? 'CORRECT!' : 'INCORRECT') + '</div>' +
+                '<div class="feedback-text"><strong>Result:</strong> ' + campaign.result + '</div>' +
+                '<div class="feedback-text">' + campaign.explanation + '</div>' +
+                '<div class="lesson"><strong>Strategy Lesson:</strong> ' + campaign.lesson + '</div>';
+            feedbackDiv.classList.remove('hidden');
+
+            document.getElementById('currentScore').textContent = gameState.score;
+            document.getElementById('questionsAnswered').textContent = gameState.questionsAnswered;
+            document.getElementById('nextButton').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            gameState.currentQuestionIndex++;
+            
+            if (gameState.currentQuestionIndex < campaigns.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function updateProgressBar() {
+            var progress = ((gameState.currentQuestionIndex + 1) / campaigns.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showResults() {
+            document.getElementById('questionScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            document.getElementById('finalScore').textContent = gameState.score;
+
+            var emoji, title, message, ctaMessage;
+
+            if (gameState.score >= 7) {
+                emoji = '🏆';
+                title = 'CHIEF STRATEGY OFFICER';
+                message = 'You have exceptional strategic instincts! You predicted campaigns like a seasoned advertising pro.';
+                ctaMessage = "You are a natural strategist. Imagine what you could do with formal training in our MS Advertising program. Learn the frameworks behind viral success in courses like ADV 523 (Digital Strategy) and ADV 611 (Strategic Planning).";
+            } else if (gameState.score >= 5) {
+                emoji = '🎯';
+                title = 'SENIOR STRATEGIST';
+                message = 'Strong strategic thinking! You got most campaigns right and understand the fundamentals.';
+                ctaMessage = "You have got solid instincts. Our MS Advertising program will teach you the Contagious Commandments, the proven framework for predicting what will work BEFORE brands spend millions.";
+            } else if (gameState.score >= 3) {
+                emoji = '📊';
+                title = 'STRATEGIST IN TRAINING';
+                message = 'Good start! You see patterns but there is more to learn about what makes campaigns succeed.';
+                ctaMessage = "Strategic thinking is a skill you can develop. Our program teaches you how to analyze audiences, predict outcomes, and build campaigns that work. No guessing required.";
+            } else {
+                emoji = '📚';
+                title = 'YOU NEED OUR PROGRAM!';
+                message = 'Strategy is harder than it looks! But that is exactly why brands pay strategists six figures.';
+                ctaMessage = "The good news? This is all learnable. In our MS Advertising program, you will master the research, analytics, and strategic frameworks that turn instinct into expertise. Start with courses like ADV 612 (Account Planning) and ADV 604 (Practice and Leadership).";
+            }
+
+            document.getElementById('resultsEmoji').textContent = emoji;
+            document.getElementById('resultsTitle').textContent = title;
+            document.getElementById('resultsMessage').textContent = message;
+            document.getElementById('ctaMessage').textContent = ctaMessage;
+        }
+
+        function submitLead(event) {
+            event.preventDefault();
+            
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var program = document.getElementById('program').value;
+
+            var googleFormURL = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse';
+            var formData = new URLSearchParams({
+                'entry.NAME_FIELD_ID': name,
+                'entry.EMAIL_FIELD_ID': email,
+                'entry.PROGRAM_FIELD_ID': program,
+                'entry.SCORE_FIELD_ID': gameState.score + '/8'
+            });
+
+            fetch(googleFormURL + '?' + formData.toString(), {
+                method: 'GET',
+                mode: 'no-cors'
+            }).then(function() {
+                alert('Thanks! We will be in touch soon about the MS Advertising program.');
+                document.getElementById('leadForm').style.display = 'none';
+            }).catch(function() {
+                alert('Thanks! We will be in touch soon about the MS Advertising program.');
+                document.getElementById('leadForm').style.display = 'none';
+            });
+        }
+
+        function restartGame() {
+            gameState.currentQuestionIndex = 0;
+            gameState.score = 0;
+            gameState.questionsAnswered = 0;
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+            document.getElementById('leadForm').style.display = 'block';
+            document.getElementById('leadForm').reset();
+        }
+
+        document.getElementById('startButton').addEventListener('click', startGame);
+        document.getElementById('viralButton').addEventListener('click', function() { answerQuestion('viral'); });
+        document.getElementById('failButton').addEventListener('click', function() { answerQuestion('fail'); });
+        document.getElementById('nextButton').addEventListener('click', nextQuestion);
+        document.getElementById('restartButton').addEventListener('click', restartGame);
+        document.getElementById('leadForm').addEventListener('submit', submitLead);
+    </script>
+</body>
+</html>
