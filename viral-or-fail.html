@@ -523,19 +523,19 @@
         }
 
         function submitLead(event) {
-            event.preventDefault();
-            
-            var name = document.getElementById('name').value;
-            var email = document.getElementById('email').value;
-            var program = document.getElementById('program').value;
+    event.preventDefault();
+    
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var program = document.getElementById('program').value;
 
-            var googleFormURL = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse';
-            var formData = new URLSearchParams({
-                'entry.NAME_FIELD_ID': name,
-                'entry.EMAIL_FIELD_ID': email,
-                'entry.PROGRAM_FIELD_ID': program,
-                'entry.SCORE_FIELD_ID': gameState.score + '/8'
-            });
+    var googleFormURL = 'https://docs.google.com/forms/d/e/1FAIpQLSdOvZ4HkY64vfUQ6BsMpKQ2xR5bHeflRSYEiao53jQxQ6T06w/formResponse';
+    var formData = new URLSearchParams({
+        'entry.1692194758': name,
+        'entry.1367070810': email,
+        'entry.1243380298': program,
+        'entry.1280625584': gameState.score + '/8'
+    });
 
             fetch(googleFormURL + '?' + formData.toString(), {
                 method: 'GET',
