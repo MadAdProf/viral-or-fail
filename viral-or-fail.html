@@ -530,26 +530,23 @@
     var program = document.getElementById('program').value;
     var score = gameState.score + '/8';
 
-    var scriptURL = 'https://script.google.com/macros/s/AKfycbxU6cd6UZvDcll17gMc5_5XOFhLXdMw0Y2-YcmJu_UsXJFRT6ulhOtFWwBtJ27GV0sF/exec';
+    var formspreeURL = 'https://formspree.io/f/xovyadne';
     
-    var formData = new URLSearchParams({
-        'name': name,
-        'email': email,
-        'program': program,
-        'score': score
-    });
-
-    fetch(scriptURL + '?' + formData.toString(), {
-        method: 'GET'
+    fetch(formspreeURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            program: program,
+            score: score,
+            source: 'Viral or Fail Game'
+        })
     })
     .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        if (data.result === 'success') {
-            alert('Thanks! We will be in touch soon about the MS Advertising program.');
-            document.getElementById('leadForm').style.display = 'none';
-        } else {
+        if (response.ok) {
             alert('Thanks! We will be in touch soon about the MS Advertising program.');
             document.getElementById('leadForm').style.display = 'none';
         }
