@@ -523,40 +523,43 @@
         }
 
         function submitLead(event) {
-    event.preventDefault();
-    
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    var program = document.getElementById('program').value;
-    var score = gameState.score + '/8';
+            event.preventDefault();
+            
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var program = document.getElementById('program').value;
+            var score = gameState.score + '/8';
 
-    var formspreeURL = 'https://formspree.io/f/xovyadne';
-    
-    fetch(formspreeURL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: name,
-            email: email,
-            program: program,
-            score: score,
-            source: 'Viral or Fail Game'
-        })
-    })
-    .then(function(response) {
-        if (response.ok) {
-            alert('Thanks! We will be in touch soon about the MS Advertising program.');
-            document.getElementById('leadForm').style.display = 'none';
+            var formspreeURL = 'https://formspree.io/f/xovyadne';
+            
+            fetch(formspreeURL, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    program: program,
+                    score: score
+                })
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    alert('Thanks! We will be in touch soon about the MS Advertising program.');
+                    document.getElementById('leadForm').style.display = 'none';
+                } else {
+                    alert('Thanks! We will be in touch soon about the MS Advertising program.');
+                    document.getElementById('leadForm').style.display = 'none';
+                }
+            })
+            .catch(function(error) {
+                console.log('Submission error:', error);
+                alert('Thanks! We will be in touch soon about the MS Advertising program.');
+                document.getElementById('leadForm').style.display = 'none';
+            });
         }
-    })
-    .catch(function(error) {
-        console.log('Error:', error);
-        alert('Thanks! We will be in touch soon about the MS Advertising program.');
-        document.getElementById('leadForm').style.display = 'none';
-    });
-}
 
         function restartGame() {
             gameState.currentQuestionIndex = 0;
